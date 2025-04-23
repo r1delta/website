@@ -357,9 +357,10 @@
             servers.forEach(server => {
                 total += (server.players || []).length;
             });
-            if (total > 0) {
+            if (total > 9) {
                 const el = document.getElementById('playercount');
                 el.textContent = total === 1 ? '1 player online' : `${total} players online`;
+                // don't need to show 1 anymoe but lets call it "legacy code"
                 el.style.display = 'block';
             }
             });
