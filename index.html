@@ -232,7 +232,8 @@
       <div class="content" id="content">
          <img src="logo.png" class="logo" alt="R1Delta Logo">
          <h1>R1Delta</h1>
-         <p class="subtitle"><a href="https://github.com/r1delta">Open source</a>, custom server framework for Titanfall 1 that allows hosting dedicated servers and loading mods.</p>
+         <p class="subtitle"><a href="https://github.com/r1delta">Open source</a>, custom server framework for Titanfall 1 that allows hosting dedicated servers and loading mods.</p><br>
+        <div id="playercount" style="display:none"></div>
         <div class="buttons">
             <a href="https://github.com/r1delta/r1delta/releases/latest/download/R1DeltaSetup.exe" class="btn btn-download">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -346,6 +347,25 @@
              video.addEventListener('loadeddata', checkVideoReady);
              checkVideoReady();
          });
+
+        /* very cool player count  - might need to fix cors for this :thinking:*/
+        document.addEventListener('DOMContentLoaded', () => {
+        fetch('https://ms.r1delta.net/servers')
+            .then(res => res.json())
+            .then(servers => {
+            let total = 0;
+            servers.forEach(server => {
+                total += (server.players || []).length;
+            });
+            if (total > 0) {
+                const el = document.getElementById('playercount');
+                el.textContent = `${total} players online`;
+                el.style.display = 'block';
+            }
+            });
+        });
+
+
       </script>
       <!-- privacy friendly statistics -->
     <script async src="https://scripts.simpleanalyticscdn.com/latest.js"></script>
